@@ -18,7 +18,9 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="/index.html">가구마켓</a>
-      <span class='ms-auto mx-2' id = "userName">ds</span>
+      <span class='ms-auto mx-2' id = "userName">
+        <button type="submit" class="btn btn-primary" onClick="location.href='/login.html';">로그인하기</button>
+      </span>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -95,8 +97,12 @@
 
     //유저정보 확인
     var 뺀거 = localStorage.getItem('user')
-    $('#userName').html(JSON.parse(뺀거).displayName)
-
+    if (뺀거){
+      $('#userName').html(JSON.parse(뺀거).displayName)
+    }
+    if (뺀거 == null) {
+      window.location.href = "/login.html"
+    }
     var 쿼리스트링 = new URLSearchParams(window.location.search);
     db.collection('product').doc(쿼리스트링.get('id')).get().then((result)=>{
      $('#title').val(result.data().productname)
