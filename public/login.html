@@ -91,7 +91,6 @@
           <input type="password" class="form-control" placeholder="pw" id="pw">
         </div>
         <button type="submit" class="btn btn-primary" id="login">로그인하기</button>
-        <button type="submit" class="btn btn-primary" id="logout">로그아웃</button>
         <button type="submit" class="btn btn-primary" id="register">가입하기</button>
      </div>
 
@@ -130,6 +129,7 @@
         var 패스워드 = $('#pw').val();
         firebase.auth().signInWithEmailAndPassword(이메일,패스워드).then((result)=>{
             console.log(result.user)
+            history.back();
         })
     })
 

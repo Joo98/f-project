@@ -21,6 +21,7 @@
       <span class='ms-auto mx-2' id = "userName">
         <button type="submit" class="btn btn-primary" onClick="location.href='/login.html';">로그인하기</button>
       </span>
+      <button type="submit" class="btn btn-primary" id="logout">로그아웃</button>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -99,8 +100,9 @@
     var 뺀거 = localStorage.getItem('user')
     if (뺀거){
       $('#userName').html(JSON.parse(뺀거).displayName)
-    }
-    if (뺀거 == null) {
+      
+    } else {
+      $('#logout').hide()
       window.location.href = "/login.html"
     }
     var 쿼리스트링 = new URLSearchParams(window.location.search);
