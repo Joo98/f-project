@@ -99,13 +99,13 @@
       var 템플릿 = `<div class="container mt-4">
           <h5 class="my-2">상세페이지 </h5>
           
-          <div class="detail-pic my-4" style="background-image: url(${result.data().img});"></div>
+          <div class="detail-pic my-4" style="background-image: url(${result.data().img} );background-size: cover;" ></div>
           <div>
             <h5>올린사람 : ${result.data().username}</h5>
             <hr>
             <h5 class="title">${result.data().productname}</h5>
             <p class="date">${Date(result.data().date)} </p>
-            <p class="price">${result.data().price}</p>
+            <p class="price">${result.data().price}원</p>
           </div>
           <button class="btn btn-outline-secondary" id = 'edit'>수정</button>
           <button class="btn btn-outline-secondary" id = 'chat'>채팅</button>
