@@ -176,6 +176,7 @@
     })
     
     $('#register').click(function(){
+      
         var 이메일 = $('#email-new').val();
         var 패스워드 = $('#pw-new').val();
         var username = $('#name-new').val();
@@ -184,7 +185,6 @@
         var 상세주소 =$('#detailAddress').val();
         
         firebase.auth().createUserWithEmailAndPassword(이메일, 패스워드).
-        
         then((result)=>{
             var 유저정보 = {
                 name : username,
@@ -194,10 +194,10 @@
                 detailAddress : 상세주소
             }
             db.collection('user').doc(result.user.uid).set(유저정보)
-            
-            
             result.user.updateProfile({displayName : username})
         })
+
+        //window.location.href = "/login.html"
     })
     
 
