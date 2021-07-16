@@ -10,7 +10,7 @@
   <title>Document</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="main.css">
-
+  <link rel="import" href="getadr.jsp">
   
 </head>
 <body>
@@ -92,7 +92,8 @@
         <div class="mb-3">
             <input type="password" class="form-control" placeholder="pw" id="pw-new">
         </div>
-        <button type="submit" class="btn btn-primary" id="register">가입하기</button>
+        <button type="submit" class="btn btn-primary" id="getadr">주소찾기</button>
+        <button type="submit" class="btn btn-primary" id="register" >가입하기</button>
     </div>
 
 
@@ -106,7 +107,7 @@
       $('#userName').html(JSON.parse(뺀거).displayName)
     }
     
-    
+
 
     firebase.auth().onAuthStateChanged((user)=>{
         if (user) {
@@ -116,7 +117,7 @@
             
         }
     })
-
+    
     $('#register').click(function(){
         var 이메일 = $('#email-new').val();
         var 패스워드 = $('#pw-new').val();
