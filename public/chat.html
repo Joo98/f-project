@@ -155,8 +155,13 @@
             $('.chat-content').html('');
 
             result.forEach((a) => {
+              if(a.id == 내uid){
               var 템플릿 = `<li><span class="chat-box">${a.data().content}</span></li>`;
+              $('.chat-content').append(템플릿)}
+              else{
+                var 템플릿 = `<li><span class="chat-box mine">${a.data().content}</span></li>`;
               $('.chat-content').append(템플릿)
+              }
             })
           })
         })
