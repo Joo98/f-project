@@ -132,9 +132,26 @@
       $('.container').append(템플릿)
 
       var 내uid = JSON.parse(localStorage.getItem('user')).uid
+      
+      $('.form-control').click(function (e) {
+            
+          e.stopImmediatePropagation();
+
+          db.collection('community').doc(커뮤니티id).collection('comments').orderBy('date').onSnapshot((result) => {
+            $('.chat-content').html('');
+
+            result.forEach((a) => {
+              console.log(a)
+             
+                var 템플릿 = `<li><span class="chat-box">${a.data().content}</span></li>`;
+              $('.chat-content').append(템플릿)
+              
+            })
+          })
+        })
 
       $('#chat').click(function () {
-      var 데이터 = {
+        var 데이터 = {
         content: $('#chat-input').val(),
         date: new Date(),
         uid: 내uid
@@ -143,10 +160,12 @@
       db.collection('community').doc(커뮤니티id).collection('comments').add(데이터)
 
     })
-    var 템플릿 = `<li><span class="chat-box">${a.data().content}</span></li>`;
-              $('.chat-input').append(템플릿)
 
+           
     })
+    
+    
+  
 
 
   </script>
