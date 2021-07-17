@@ -49,3 +49,17 @@
 .mine {
   float: right;
 }
+
+
+
+.button {
+  position: fixed;
+  bottom: 10px;
+  right: 10px; 
+}
+.circle{
+  width:50px;
+  height:50px;
+  border-radius: 50%;
+  background:#F78181;
+}
