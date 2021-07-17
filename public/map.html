@@ -11,8 +11,8 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="main.css">
 
-  <meta charset="utf-8"/>
-	<title>Kakao 지도 시작하기</title>
+  <meta charset="utf-8" />
+  <title>Kakao 지도 시작하기</title>
 
 </head>
 
@@ -91,17 +91,46 @@
 
 
   </script>
-  <div id="map" style="width:100vw;height:600vh;"></div>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=07f1ec7623bb4e91f74f4b45c681b236"></script>
-	<script>
-		var container = document.getElementById('map');
-		var options = {
-			center: new kakao.maps.LatLng(33.450701, 126.570667),
-			level: 2
-		};
+  <div id="map" style="width:600px;height:600px;"></div>
+  <script type="text/javascript"
+    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=07f1ec7623bb4e91f74f4b45c681b236&libraries=services"></script>
+  <script>
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+    var LatLng
+    var 뺀거 = localStorage.getItem('user')
+    if (뺀거) {
+      $('#userName').html(JSON.parse(뺀거).displayName)
 
-		var map = new kakao.maps.Map(container, options);
-	</script>
+    } else {
+      $('#logout').hide()
+    }
+    db.collection('user').doc(JSON.parse(뺀거).uid).get().then((result) => {
+      LatLng = result.data().LatLng
+
+
+
+      $('#logout').click(function () {
+        firebase.auth().signOut()
+        localStorage.removeItem('user')
+        window.location.reload()
+      })
+      //유저정보 확인
+
+
+      var container = document.getElementById('map');
+      var options = {
+        center: new kakao.maps.LatLng(Number(LatLng[0]), Number(LatLng[1])),
+        level: 4
+      };
+
+      var map = new kakao.maps.Map(container, options);
+
+
+      
+
+    })
+  </script>
 
 
 

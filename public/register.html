@@ -235,9 +235,12 @@
           db.collection('user').doc(result.user.uid).set(유저정보)
           result.user.updateProfile({ displayName: username })
         })
-        //setTimeout(() => {
-        //  window.location.href = "/login.html"
-        //}, 1000);
+        setTimeout(() => {
+          firebase.auth().signOut()
+          localStorage.removeItem('user')
+          window.location.reload()
+          window.location.href = "/login.html"
+        }, 1500);
         
     })
 
