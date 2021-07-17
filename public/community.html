@@ -20,7 +20,7 @@
     <div class="container-fluid">
       <a class="navbar-brand" href="/index.html">가구마켓</a>
       <span class='ms-auto mx-2' id="userName">
-        <button type="submit" class="btn btn-primary" onClick="location.href='/login.html';">로그인하기</button>
+        <button type="submit" class="btn btn-primary" id="gotologin">로그인하기</button>
       </span>
       <button type="submit" class="btn btn-primary" id="logout">로그아웃</button>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -90,30 +90,12 @@
 
 
   </script>
-  <div class="container p-4 detail">
-    <div class="row">
-      <div class="col-3 p-0">
-        <ul class="list-group chat-list">
-          <li class="list-group-item">
-            <h6>채팅방1</h6>
-            <h6 class="text-small">채팅방아이디</h6>
-          </li>
-        </ul>
-      </div>
-      <div class="col-9 p-0">
-        <div class="chat-room">
-          <ul class="list-group chat-content">
-            <li><span class="chat-box">채팅방1 contents</span></li>
-            <li><span class="chat-box">채팅방1 contents</span></li>
-            <li><span class="chat-box mine">채팅방1 contents</span></li>
-          </ul>
-          <div class="input-group">
-            <input class="form-control" id="chat-input">
-            <button class="btn btn-secondary" id="send">전송</button>
-          </div>
-        </div>
-      </div>
-    </div>
+
+  <div class="container mt-3">
+    <input type="text" class="form-control mt-2" id="title" placeholder="title">
+    <textarea class="form-control mt-2" id="content" placeholder="content"></textarea>
+    <input class="form-control mt-2" type="file" id="image2">
+    <button class="btn btn-danger mt-3" id="send">올리기</button>
   </div>
 
   <script>
@@ -121,13 +103,8 @@
     const db = firebase.firestore();
     const storage = firebase.storage();
 
-    $('#logout').click(function () {
-      firebase.auth().signOut()
-      localStorage.removeItem('user')
-      window.location.reload()
-    })
 
-
+    //유저정보 확인
     var 뺀거 = localStorage.getItem('user')
     if (뺀거) {
       $('#userName').html(JSON.parse(뺀거).displayName)
@@ -136,54 +113,46 @@
       $('#logout').hide()
       window.location.href = "/login.html"
     }
-    var 내uid = JSON.parse(localStorage.getItem('user')).uid
-    db.collection('chatroom').where('who', 'array-contains', 내uid).get().then((result) => {
-      result.forEach((a) => {
-        var template = `<li class="list-group-item">
-            <h6>${a.data().product}</h6>
-            <h6 class="text-small">${a.id}</h6>
-          </li>`
-        $('.chat-list').append(template)
-
-        //저거 박스 누르면 채팅방 id 가져오는 코드
-        $('.list-group-item').click(function (e) {
-          채팅방id = $(this).children('.text-small').text();
-
-          e.stopImmediatePropagation();
-
-          db.collection('chatroom').doc(채팅방id).collection('messages').orderBy('date').onSnapshot((result) => {
-            $('.chat-content').html('');
-
-            result.forEach((a) => {
-              console.log(a)
-              if(a.uid == 내uid){
-              var 템플릿 = `<li><span class="chat-box mine">${a.data().content}</span></li>`;
-              $('.chat-content').append(템플릿)}
-              else{
-                var 템플릿 = `<li><span class="chat-box">${a.data().content}</span></li>`;
-              $('.chat-content').append(템플릿)
-              }
-            })
-          })
-        })
-      })
-    })
-
-    var 채팅방id;
-
 
     $('#send').click(function () {
-      var 데이터 = {
-        content: $('#chat-input').val(),
-        date: new Date(),
-        uid: 내uid
-      }
 
-      db.collection('chatroom').doc(채팅방id).collection('messages').add(데이터)
+      var file = document.querySelector('#image2').files[0];
+      var storageRef = storage.ref();
+      var 저장할경로 = storageRef.child('image2/' + file.name);
+      var 업로드작업 = 저장할경로.put(file);
+
+      업로드작업.on('state_changed',
+        // 변화시 동작하는 함수 
+        null,
+        //에러시 동작하는 함수
+        (error) => {
+          console.error('실패사유는', error);
+        },
+        // 성공시 동작하는 함수 =업로드
+        () => {
+          업로드작업.snapshot.ref.getDownloadURL().then((url) => {
+            console.log('업로드된 경로는', url);
+
+            var tosave = {
+              title: $('#title').val(),
+              contents: $('#content').val(),
+              date: new Date(),
+              img: url,
+              uid: JSON.parse(localStorage.getItem('user')).uid,
+              username: JSON.parse(localStorage.getItem('user')).displayName
+            }
+            db.collection('community').add(tosave).then((result) => {
+              console.log(result)
+              window.location.href = "/community2.html"
+            }).catch((err) => {
+              console.log(err)
+            })
+          });
+        }
+      );
 
     })
 
-    
   </script>
 
 

@@ -83,40 +83,16 @@
       measurementId: "G-FNXEVE9086"
     };
 
-
-
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
-
   </script>
-  <div class="container p-4 detail">
-    <div class="row">
-      <div class="col-3 p-0">
-        <ul class="list-group chat-list">
-          <li class="list-group-item">
-            <h6>채팅방1</h6>
-            <h6 class="text-small">채팅방아이디</h6>
-          </li>
-        </ul>
-      </div>
-      <div class="col-9 p-0">
-        <div class="chat-room">
-          <ul class="list-group chat-content">
-            <li><span class="chat-box">채팅방1 contents</span></li>
-            <li><span class="chat-box">채팅방1 contents</span></li>
-            <li><span class="chat-box mine">채팅방1 contents</span></li>
-          </ul>
-          <div class="input-group">
-            <input class="form-control" id="chat-input">
-            <button class="btn btn-secondary" id="send">전송</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+
 
   <script>
+       var 쿼리스트링 = new URLSearchParams(window.location.search);
+  
 
     const db = firebase.firestore();
     const storage = firebase.storage();
@@ -126,66 +102,68 @@
       localStorage.removeItem('user')
       window.location.reload()
     })
-
-
     var 뺀거 = localStorage.getItem('user')
     if (뺀거) {
       $('#userName').html(JSON.parse(뺀거).displayName)
 
     } else {
       $('#logout').hide()
-      window.location.href = "/login.html"
     }
-    var 내uid = JSON.parse(localStorage.getItem('user')).uid
-    db.collection('chatroom').where('who', 'array-contains', 내uid).get().then((result) => {
-      result.forEach((a) => {
-        var template = `<li class="list-group-item">
-            <h6>${a.data().product}</h6>
-            <h6 class="text-small">${a.id}</h6>
-          </li>`
-        $('.chat-list').append(template)
 
-        //저거 박스 누르면 채팅방 id 가져오는 코드
-        $('.list-group-item').click(function (e) {
-          채팅방id = $(this).children('.text-small').text();
+    var 게시자uid;
+    var 제목;
 
-          e.stopImmediatePropagation();
+    db.collection('community').doc(쿼리스트링.get('id')).get().then((result) => {
+        var 커뮤니티id = result.id;
+      게시자uid = result.data().uid;
+      제목 = result.data().title;
+      var 템플릿 = `<div class="container mt-4">
+          <h5 class="my-2">커뮤니티 </h5>
+          
+          <div class="detail-pic my-4" style="background-image: url(${result.data().img} );background-size: contain;border=0; background-repeat : no-repeat " ></div>
+          <div>
+            <h5>올린사람 : ${result.data().username}</h5>
+            <hr>
+            <h5 class="title">제목 :${result.data().title}</h5>
+            <h5 class="content">내용 :${result.data().contents}</h5>
+            <p class="date">${Date(result.data().date)} </p>
+            </div>
+            <div class="chat-room">
+          <ul class="list-group chat-content">
+            <li><span class="chat-box">채팅방1 contents</span></li>
+         </ul>
+            </div>
+          <div class="input-group">
+            <input class="form-control" id="chat-input" placeholder="댓글을 입력해주세요"></input>
+            <button class="btn btn-secondary" id="chat">등록</button>
+            </div>
+      </div>`
+      
 
-          db.collection('chatroom').doc(채팅방id).collection('messages').orderBy('date').onSnapshot((result) => {
-            $('.chat-content').html('');
+      $('.container').append(템플릿)
 
-            result.forEach((a) => {
-              console.log(a)
-              if(a.uid == 내uid){
-              var 템플릿 = `<li><span class="chat-box mine">${a.data().content}</span></li>`;
-              $('.chat-content').append(템플릿)}
-              else{
-                var 템플릿 = `<li><span class="chat-box">${a.data().content}</span></li>`;
-              $('.chat-content').append(템플릿)
-              }
-            })
-          })
-        })
-      })
-    })
+      var 내uid = JSON.parse(localStorage.getItem('user')).uid
 
-    var 채팅방id;
-
-
-    $('#send').click(function () {
+      $('#chat').click(function () {
       var 데이터 = {
         content: $('#chat-input').val(),
         date: new Date(),
         uid: 내uid
       }
 
-      db.collection('chatroom').doc(채팅방id).collection('messages').add(데이터)
+      db.collection('community').doc(커뮤니티id).collection('comments').add(데이터)
+
+    })
+    var 템플릿 = `<li><span class="chat-box">${a.data().content}</span></li>`;
+              $('.chat-input').append(템플릿)
 
     })
 
-    
+
   </script>
 
+  <div class="container mt-4">
+  </div>
 
 
 </body>
