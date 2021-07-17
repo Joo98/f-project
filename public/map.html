@@ -117,16 +117,31 @@
       })
       //유저정보 확인
 
-
+      var markers = []
+      db.collection('product').get().then((결과) => {
+        결과.forEach((doc) => {
+          if(doc.data().LatLng){
+          var marker = new kakao.maps.Marker({
+            position: new kakao.maps.LatLng(Number(doc.data().LatLng[0]), Number(doc.data().LatLng[1])),
+            text : doc.data().productname
+          })
+          marker.setMap(map);
+          markers.push(marker);
+        }
+        })
+      })
+      console.log(markers)
       var container = document.getElementById('map');
       var options = {
         center: new kakao.maps.LatLng(Number(LatLng[0]), Number(LatLng[1])),
-        level: 4
+        level: 4,
+        marker: markers 
       };
+      
 
       var map = new kakao.maps.Map(container, options);
-
-
+      
+      
       
 
     })
