@@ -95,12 +95,15 @@
           // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
           var addr = ''; // 주소 변수
           var extraAddr = ''; // 참고항목 변수
-
+          var nshort = '';
           //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
           if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-            addr = data.jibunAddress;
+            addr = data.roadAddress;
+            nshort = data.bname;
+            
           } else { // 사용자가 지번 주소를 선택했을 경우(J)
             addr = data.jibunAddress;
+            nshort = data.bname;
           }
 
           // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
@@ -108,7 +111,7 @@
             // 법정동명이 있을 경우 추가한다. (법정리는 제외)
             // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
             if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-              extraAddr += data.bname;
+              nshort = data.bname;
             }
             // 건물명이 있고, 공동주택일 경우 추가한다.
             if (data.buildingName !== '' && data.apartment === 'Y') {
@@ -126,6 +129,7 @@
           // 우편번호와 주소 정보를 해당 필드에 넣는다.
           document.getElementById('postcode').value = data.zonecode;
           document.getElementById("address").value = addr;
+          document.getElementById("short-new").value = nshort;
           // 커서를 상세주소 필드로 이동한다.
           document.getElementById("detailAddress").focus();
         }
@@ -153,6 +157,7 @@
     현장 주소
     <div class="mb-3">
       <input type="text" id="postcode" placeholder="우편번호">
+      <input type="text" id="short-new" placeholder="법정동">
       <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
     </div>
     <div class="mb-3">
@@ -202,6 +207,7 @@
       var 주소 = $('#address').val();
       var 상세주소 = $('#detailAddress').val();
       var 역할 = $('#role-new').val();
+      var 간단한주소 = $('#short-new').val();
       firebase.auth().createUserWithEmailAndPassword(이메일, 패스워드).
         then((result) => {
           var 유저정보 = {
@@ -210,12 +216,16 @@
             postcode: 우편번호,
             adress: 주소,
             detailAddress: 상세주소,
-            role : 역할
+            role : 역할,
+            short : 간단한주소
           }
           db.collection('user').doc(result.user.uid).set(유저정보)
           result.user.updateProfile({ displayName: username })
         })
-      
+        setTimeout(() => {
+          window.location.href = "/login.html"
+        }, 1000);
+        
     })
 
 
