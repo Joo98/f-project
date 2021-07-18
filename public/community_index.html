@@ -94,7 +94,7 @@
       $('#logout').hide()
       
     }
-    db.collection('community').get().then((결과) => {
+    db.collection('community').orderBy('date').get().then((결과) => {
       결과.forEach((doc) => {
         console.log(doc.data());
         var 템플릿 = `<div class="community">
