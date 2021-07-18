@@ -137,7 +137,7 @@
             
           e.stopImmediatePropagation();
 
-          db.collection('community').doc(커뮤니티id).collection('comments').orderBy('date').onSnapshot((result) => {
+          db.collection('community').doc(커뮤니티id).collection('comments').orderBy('date','desc').onSnapshot((result) => {
             $('.chat-content').html('');
 
             result.forEach((a) => {
