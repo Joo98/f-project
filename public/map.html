@@ -33,13 +33,13 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active" aria-current="page" href="/mypage.html">마이페이지</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" onClick="location.href='/mypage.html';">마이페이지</a>
+            <a class="nav-link active" aria-current="page" href="/community_index.html">커뮤니티</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" onClick="location.href='/community_index.html';">커뮤니티</a>
+            <a class="nav-link active" aria-current="page" href="/map.html">내주변</a>
           </li>
 
           <form class="d-flex">
@@ -105,14 +105,20 @@
         window.location.reload()
       })
       //유저정보 확인
+      var container = document.getElementById('map');
+      var options = {
+        center: new kakao.maps.LatLng(Number(LatLng[0]), Number(LatLng[1])),
+        level: 5,
+      };
 
-      var markers = []
+      var map = new kakao.maps.Map(container, options);
+      
       db.collection('product').get().then((결과) => {
         결과.forEach((doc) => {
           if (doc.data().LatLng) {
             var content = '<div class="customoverlay">' +
-              '  <a aria-current="page" onClick=location.href="'+ '/detail.html?id='+doc.id+'" target="_blank">' +
-              '    <span class="title">'+doc.data().productname+'</span>' +
+              '  <a aria-current="page" onClick=location.href="' + '/detail.html?id=' + doc.id + '" target="_blank">' +
+              '    <span class="title">' + doc.data().productname + '</span>' +
               '  </a>' +
               '</div>';
             var customOverlay = new kakao.maps.CustomOverlay({
@@ -126,17 +132,15 @@
           }
         })
       })
-      console.log(markers)
-      var container = document.getElementById('map');
-      var options = {
-        center: new kakao.maps.LatLng(Number(LatLng[0]), Number(LatLng[1])),
-        level: 4,
-        marker: markers
-      };
+     
+      // 마커가 지도 위에 표시되도록 설정합니다
+     
 
-
-      var map = new kakao.maps.Map(container, options);
-
+      
+      var marker = new kakao.maps.Marker({
+        position: new kakao.maps.LatLng(Number(LatLng[0]), Number(LatLng[1]))
+      });
+      marker.setMap(map);
 
 
 
