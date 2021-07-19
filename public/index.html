@@ -100,7 +100,7 @@
       $('#logout').hide()
       window.location.href = "/login.html"
     }
-    db.collection('product').orderBy('date').get().then((결과) => {
+    db.collection('product').orderBy('date','desc').get().then((결과) => {
       결과.forEach((doc) => {
         console.log(doc.data());
         var 템플릿 = `<div class="product">

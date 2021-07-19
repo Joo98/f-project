@@ -133,6 +133,10 @@
           date: new Date()
         }
         db.collection('chatroom').add(데이터)
+        setTimeout(() => {
+          
+          window.location.href = "/chat.html"
+        }, 1000);
       })
 
 
