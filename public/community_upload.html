@@ -31,13 +31,13 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/mypage.html" >마이페이지</a>
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/community_index.html">커뮤니티</a>
+            <a class="nav-link" onClick="location.href='/mypage.html';" >마이페이지</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/map.html">내주변</a>
+            <a class="nav-link" onClick="location.href='/community_index.html';">커뮤니티</a>
           </li>
          
         <form class="d-flex">
@@ -128,8 +128,7 @@
               img: url,
               uid: JSON.parse(localStorage.getItem('user')).uid,
               username: JSON.parse(localStorage.getItem('user')).displayName,
-              short: result.data().short,
-              LatLng: result.data().LatLng,
+             
             }
             db.collection('community').add(tosave).then((result) => {
               console.log(result)
@@ -138,7 +137,9 @@
               console.log(err)
             })
           });
+        
         }
+
       );
 
     })

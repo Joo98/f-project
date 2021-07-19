@@ -145,10 +145,11 @@
 
             result.forEach((a) => {
               console.log(a)
-              if(a.uid == 내uid){
+              if(a.data().uid == 내uid){
               var 템플릿 = `<li><span class="chat-box mine">${a.data().content}</span></li>`;
               $('.chat-content').append(템플릿)}
               else{
+                
                 var 템플릿 = `<li><span class="chat-box">${a.data().content}</span></li>`;
               $('.chat-content').append(템플릿)
               }

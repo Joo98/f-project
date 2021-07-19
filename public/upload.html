@@ -129,8 +129,7 @@
                 img: url,
                 uid: JSON.parse(localStorage.getItem('user')).uid,
                 username: JSON.parse(localStorage.getItem('user')).displayName,
-                short: result.data().short,
-                LatLng: result.data().LatLng,
+               
               }
               db.collection('product').add(tosave).then((result) => {
                 console.log(result)
