@@ -34,16 +34,16 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" onClick="location.href='/mypage.html';" >마이페이지</a>
+            <a class="nav-link" onClick="location.href='/mypage.html';">마이페이지</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" onClick="location.href='/community_index.html';">커뮤니티</a>
           </li>
-         
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
       </div>
     </div>
   </nav>
@@ -95,30 +95,56 @@
     } else {
       $('#logout').hide()
       window.location.href = "/login.html"
-    }   
+    }
   </script>
-<script>
-    
-   db.collection('user').doc(JSON.parse(뺀거).uid).get().then((doc) => {
-      
-        console.log(doc.data());
-        var 템플릿 = `<div class="user">
+  <div class="container" id='container1'></div>
+
+  <div class="mb-3" id='select_user'></div>
+
+
+  <div class="container" id='container2'></div>
+  <script>
+
+    var 토글버튼 = "<select size = '1' id = 'select_user'onchange='change(this.value)''><option value='all'>전체</option>"
+    db.collection('user').doc(JSON.parse(뺀거).uid).get().then((user) => {
+
+      console.log(user.data());
+      var 템플릿 = `<div class="user">
       <div class="thumbnail" style="background-image: url(//f-project-75192.appspot.com/profile/profile.png})"></div>
       <div class="flex-grow-1 p-4">
-        <h5 class="role">${doc.data().role}</h5>
-        <p class="email">${doc.data().email}</p>
-        <p class="name">${doc.data().name}</p>
-        <p class="adress">${doc.data().adress}</p>
+        <h5 class="role">${user.data().role}</h5>
+        <p class="email">${user.data().email}</p>
+        <p class="name">${user.data().name}</p>
+        <p class="adress">${user.data().adress}</p>
       </div>
     </div>`;
-        $('.container').append(템플릿)
-      
-    })
-    var 내uid = JSON.parse( localStorage.getItem('user') ).uid
+      $('#container1').append(템플릿)
 
-db.collection('product').where('uid', '==', 내uid).get().then((result)=>{
-  result.forEach((doc)=>{
-    var 템플릿 = `<div class="product">
+
+      var 내uid = JSON.parse(localStorage.getItem('user')).uid
+      var 내이름 = user.data().name
+      var 역할 = user.data().role
+
+
+
+      if (역할 == 'employer') {
+        //회사일 경우
+        console.log(내이름)
+        db.collection('user').doc(JSON.parse(뺀거).uid).collection('employee').get().then((result) => {
+          result.forEach((doc) => {
+            console.log(doc.id)
+            토글버튼 += ('<option value="' + doc.id + '" >' + doc.data().name + '</option>')
+          })
+        })
+        setTimeout(() => {
+          토글버튼 += ('</select>')
+          console.log(토글버튼)
+          $('#select_user').append(토글버튼)
+        }, 1000)
+
+        db.collection('product').where('uid', '==', 내uid).get().then((result) => {
+          result.forEach((doc) => {
+            var 템플릿 = `<div class="product">
       <div class="thumbnail" style="background-image: url(${doc.data().img})"></div>
       <div class="flex-grow-1 p-4">
         <h5 class="title"><a href="/detail.html?id=${doc.id}">${doc.data().productname}</a></h5>
@@ -127,13 +153,58 @@ db.collection('product').where('uid', '==', 내uid).get().then((result)=>{
         
       </div>
     </div>`;
-        $('.container').append(템플릿)
+            $('#container2').append(템플릿)
 
-  })
+          })
 
-})
+        })
+      } else {
+        //일반유저일 경우
+        db.collection('product').where('uid', '==', 내uid).get().then((result) => {
+          result.forEach((doc) => {
+            var 템플릿 = `<div class="product">
+      <div class="thumbnail" style="background-image: url(${doc.data().img})"></div>
+      <div class="flex-grow-1 p-4">
+        <h5 class="title"><a href="/detail.html?id=${doc.id}">${doc.data().productname}</a></h5>
+        <p class="date">${Date(doc.data().date)}</p>
+        <p class="price">${doc.data().price}원</p>
+        
+      </div>
+    </div>`;
+            $('#container2').append(템플릿)
 
-</script>
+          })
+
+        })
+        
+        $('#select_user').append('내자재')
+      }
+
+    })
+
+
+    function change(id){
+      $('#container2').empty()
+      console.log(id)
+      db.collection('product').where('uid', '==', id).get().then((result) => {
+        result.forEach((doc) => {
+          var 템플릿 = `<div class="product">
+      <div class="thumbnail" style="background-image: url(${doc.data().img})"></div>
+      <div class="flex-grow-1 p-4">
+        <h5 class="title"><a href="/detail.html?id=${doc.id}">${doc.data().productname}</a></h5>
+        <p class="date">${Date(doc.data().date)}</p>
+        <p class="price">${doc.data().price}원</p>
+        
+      </div>
+    </div>`;
+          $('#container2').append(템플릿)
+
+        })
+      })
+    }
+
+
+  </script>
 
 
   <div class="container mt-3">

@@ -133,7 +133,7 @@
     <div class="mb-3">
       <select size = '1' id = 'role-new'>
         <option value="user" selected>직원용</option>
-        <option value="master">관리자용</option>
+        <option value="employer">회사용</option>
       </select>
     
     </div>
@@ -166,7 +166,8 @@
 
 
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
+  
+  </div>
 
   <script>
     const db = firebase.firestore();
@@ -221,15 +222,18 @@
             short : 간단한주소,
             LatLng : LatLng_new
           }
+          
           db.collection('user').doc(result.user.uid).set(유저정보)
           result.user.updateProfile({ displayName: username })
-        })
-        setTimeout(() => {
+        }).then(()=>{
+          setTimeout(() => {
           firebase.auth().signOut()
           localStorage.removeItem('user')
           window.location.reload()
           window.location.href = "/login.html"
         }, 5000);
+        })
+        
         
     })
 
