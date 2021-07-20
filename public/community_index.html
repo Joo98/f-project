@@ -96,7 +96,7 @@
     }
     db.collection('community').orderBy('date').get().then((결과) => {
       결과.forEach((doc) => {
-        console.log(doc.data());
+        console.log(doc.data().img);
         var 템플릿 = `<div class="community">
       <div class="thumbnail" style="background-image: url(${doc.data().img})"></div>
       <div class="flex-grow-1 p-4">
