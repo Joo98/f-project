@@ -31,7 +31,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/mypage.html" >마이페이지</a>
+            <a class="nav-link active" aria-current="page" href="/mypage.html">마이페이지</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/community_index.html">커뮤니티</a>
@@ -39,11 +39,11 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/map.html">내주변</a>
           </li>
-         
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
       </div>
     </div>
   </nav>
@@ -125,8 +125,23 @@
       })
 
       var 내uid = JSON.parse(localStorage.getItem('user')).uid
-
+      var chatroom
       $('#chat').click(function () {
+
+        db.collection('chatroom').get().then((결과) => {
+          결과.forEach((doc) => {
+
+            if (JSON.stringify(doc.data().who) == JSON.stringify([내uid, 판매자uid]) && doc.data().product == 상품명) {
+              bl = true
+              console.log('yeah')
+              window.location.href = "/chat.html?id=" + chatroom
+
+            }
+          })
+        })
+
+
+
         var 데이터 = {
           who: [내uid, 판매자uid],
           product: 상품명,
@@ -134,9 +149,10 @@
         }
         db.collection('chatroom').add(데이터)
         setTimeout(() => {
-          
+
           window.location.href = "/chat.html"
         }, 1000);
+
       })
 
 
