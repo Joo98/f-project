@@ -39,10 +39,16 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/map.html">내주변</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/chat.html">채팅</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/notice.html">알림</a>
+          </li>
          
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
+        <form class="flex"></form>
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search_input">
+          <button class="btn btn btn-primary" type="submit" id="search">Search</button>
         </form>
       </div>
     </div>
@@ -88,6 +94,11 @@
       firebase.auth().signOut()
       localStorage.removeItem('user')
       window.location.reload()
+    })
+    
+    $('#search').click(function () {
+      console.log($('#search_input').val())
+      window.location.href = "/search.html?id="+$('#search_input').val()
     })
     //유저정보 확인
     var 뺀거 = localStorage.getItem('user')

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/index.html">가구마켓</a>
+                <span class='ms-auto mx-2' id="userName">
+                    <button type="submit" class="btn btn-primary" onClick="location.href='/login.html';">로그인하기</button>
+                </span>
+                <button type="submit" class="btn btn-primary" id="logout">로그아웃</button>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/mypage.html">마이페이지</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/community_index.html">커뮤니티</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/map.html">내주변</a>
+                        </li>
+
+                </div>
+                <form class="flex"></form>
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                    id="search_input">
+                <button class="btn btn btn-primary" type="submit" id="search">Search</button>
+                </form>
+            </div>
+        </nav>
+    </nav>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="/__/firebase/8.7.1/firebase-app.js"></script>
+    <script src="/__/firebase/8.7.1/firebase-auth.js"></script>
+    <script src="/__/firebase/8.7.1/firebase-firestore.js"></script>
+    <script src="/__/firebase/8.7.1/firebase-storage.js"></script>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCy1Q6AVz6jhkLOdRyJekQ8TQl2HVAs0g0",
+            authDomain: "f-project-75192.firebaseapp.com",
+            projectId: "f-project-75192",
+            storageBucket: "f-project-75192.appspot.com",
+            messagingSenderId: "360553916527",
+            appId: "1:360553916527:web:ca28750a2265a84dfc059a",
+            measurementId: "G-FNXEVE9086"
+        };
+
+
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+
+    </script>
+    <div class="container" id='container1'></div>
+
+    <script>
+        var 쿼리스트링 = new URLSearchParams(window.location.search);
+        var id = 쿼리스트링.get('id')
+        console.log(id)
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
+        //유저정보 확인
+        var 뺀거 = localStorage.getItem('user')
+        if (뺀거) {
+            $('#userName').html(JSON.parse(뺀거).displayName)
+
+        } else {
+            $('#logout').hide()
+            window.location.href = "/login.html"
+        }
+        $('#search').click(function () {
+            console.log($('#search_input').val())
+            window.location.href = "/search.html?id=" + $('#search_input').val()
+        })
+
+        var 내uid = JSON.parse(뺀거).uid
+        console.log(id)
+        if (id == null) {
+            history.back();
+        }else{
+            $('#search_input').val(id)
+        }
+        db.collection('product').orderBy('date', 'desc').get().then((결과) => {
+            결과.forEach((doc) => {
+                if (doc.data().productname.indexOf(id)== -1 && doc.data().contents.indexOf(id)== -1){
+                    return;
+                }
+                console.log(doc.data());
+                var 템플릿 = `<div class="product">
+                              <div class="thumbnail" style="background-image: url(${doc.data().img})"></div>
+                              <div class="flex-grow-1 p-4">
+                                <h5 class="title"><a href="/detail.html?id=${doc.id}">${doc.data().productname}</a></h5>
+                                <p class="date">${Date(doc.data().date)}</p>
+                                <p class="price">${doc.data().price}원</p>
+                            </div>
+                        </div>`;
+                $('.container').append(템플릿)
+            })
+        })
+
+
+    </script>
+
+
+
+</body>
+
+</html>

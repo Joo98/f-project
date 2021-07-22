@@ -125,16 +125,19 @@
       })
 
       var 내uid = JSON.parse(localStorage.getItem('user')).uid
-      var chatroom
+      var chatroomif 
+      if(판매자uid == 내uid){
+        $('#chat').hide()
+        }
       $('#chat').click(function () {
-
+        
         db.collection('chatroom').get().then((결과) => {
           결과.forEach((doc) => {
 
             if (JSON.stringify(doc.data().who) == JSON.stringify([내uid, 판매자uid]) && doc.data().product == 상품명) {
               bl = true
               console.log('yeah')
-              window.location.href = "/chat.html?id=" + chatroom
+              window.location.href = `chat.html?id= ${doc.id}`
 
             }
           })
