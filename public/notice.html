@@ -108,7 +108,7 @@
                         템플릿 = `<div class="product">
                                     <div class="thumbnail" ></div>
                                     <div class="flex-grow-1 p-4">
-                                    <h5 >'`+ doc.data().from_name+ `'</h5>
+                                    <h5 >`+ doc.data().from_name+ `님이 회사 허가를 원합니다</h5>
                                     <button type="submit" class="btn btn-primary" onclick = "okay('`+ doc.id + `')" id="okay">네</button>
                                     <button type="submit" class="btn btn-primary" id="no">아니요</button>          
                                     </div>
@@ -118,7 +118,7 @@
                         템플릿 = `<div class="product">
                                     <div class="thumbnail" ></div>
                                     <div class="flex-grow-1 p-4">
-                                    <h5 >`+ doc.data().contents+ `님이 회사 허가를 원합니다</h5>
+                                    <h5 >`+ doc.data().contents+ `</h5>
                                     <button type="submit" class="btn btn-primary" id="no">확인!</button>          
                                     </div>
                                 </div>`
@@ -137,6 +137,11 @@
                 
             }
             db.collection('user').doc(내uid).collection('employee').doc(결과.data().from).set(데이터)
+            var 데이터 = {
+                employer : 내uid,
+                
+            }
+            db.collection('user').doc(결과.data().from).set(데이터2)
             
         })
         db.collection('notice').doc(notice).update({read : true})
