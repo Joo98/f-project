@@ -101,16 +101,25 @@
             db.collection('notice').where('to', '==', 내uid).get().then((결과) => {
                 결과.forEach((doc) => {
                     var 템플릿
-                        //if (doc.data().read){
-                        //    return 1;
-                        //}
+                        if (doc.data().read){
+                            return 1;
+                        }
                     if (doc.data().case == 'permission') {
                         템플릿 = `<div class="product">
                                     <div class="thumbnail" ></div>
                                     <div class="flex-grow-1 p-4">
-                                    <h5 >`+ doc.data().from_name+ `님이 회사 허가를 원합니다</h5>
+                                    <h5 >'`+ doc.data().from_name+ `'</h5>
                                     <button type="submit" class="btn btn-primary" onclick = "okay('`+ doc.id + `')" id="okay">네</button>
                                     <button type="submit" class="btn btn-primary" id="no">아니요</button>          
+                                    </div>
+                                </div>`
+                    }
+                    if (doc.data().case == 'text') {
+                        템플릿 = `<div class="product">
+                                    <div class="thumbnail" ></div>
+                                    <div class="flex-grow-1 p-4">
+                                    <h5 >`+ doc.data().contents+ `님이 회사 허가를 원합니다</h5>
+                                    <button type="submit" class="btn btn-primary" id="no">확인!</button>          
                                     </div>
                                 </div>`
                     }
@@ -130,6 +139,13 @@
             db.collection('user').doc(내uid).collection('employee').doc(결과.data().from).set(데이터)
             
         })
+        db.collection('notice').doc(notice).update({read : true})
+        
+        setTimeout(() => {
+            window.location.reload()
+        },1000)
+    }
+    function no(notice) {
         db.collection('notice').doc(notice).update({read : true})
         
         setTimeout(() => {

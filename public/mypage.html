@@ -103,7 +103,7 @@
   
   <div class="container" id='container2'></div>
   <script>
-
+    //토글버튼을 만드는 곳입니다. 
     var 토글버튼 = "<select size = '1' id = 'select_user'onchange='change(this.value)''><option value='all'>전체</option>"
     db.collection('user').doc(JSON.parse(뺀거).uid).get().then((user) => {
 
