@@ -119,24 +119,31 @@
       window.location.href = "/login.html"
     }
     var 내uid = JSON.parse(localStorage.getItem('user')).uid
+    var cnt = 0;
+    var id_list = new Array();
     db.collection('chatroom').where('who', 'array-contains', 내uid).get().then((result) => {
       result.forEach((a) => {
+        
         var othername 
         if (a.data().who_name[0] == JSON.parse(뺀거).displayName){
           othername = a.data().who_name[1]
         }else{
           othername = a.data().who_name[0]
         }
-        var template = `<li class="list-group-item">
+        id_list[cnt] = a.id;
+        
+        console.log(id_list)
+        var template = `<li class="list-group-item" value = "${cnt}">
             <h6>${a.data().product}</h6>
-            <h6 class="text-small">${othername}</h6>
+            <h6 class="text-small" >${othername}</h6>
           </li>`
         $('.chat-list').append(template)
-
+        cnt +=1
         //저거 박스 누르면 채팅방 id 가져오는 코드
         $('.list-group-item').click(function (e) {
-          채팅방id = $(this).children('.text-small').text();
-
+          
+          채팅방id = id_list[$(this).val()]
+          console.log(채팅방id)
           e.stopImmediatePropagation();
 
           db.collection('chatroom').doc(채팅방id).collection('messages').orderBy('date').onSnapshot((result) => {
