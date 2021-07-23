@@ -122,12 +122,23 @@
             </div>
             <div class="chat-room">
           <ul class="list-group chat-content">
-            <li><span class="chat-box">비방과 욕설은 자제해주세요</span></li>
+            
          </ul>
             </div>
          
       </div>`
-      
+
+      db.collection('community').doc(커뮤니티id).collection('comments').orderBy('date','desc').onSnapshot((result) => {
+            
+
+            result.forEach((a) => {
+              console.log(a)
+             
+                var 템플릿 = `<li><span class="chat-box">${a.data().content}</span></li>`;
+              $('.chat-content').append(템플릿)
+              
+            })
+          })
 
       $('.container').append(템플릿)
 

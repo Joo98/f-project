@@ -96,11 +96,15 @@
       $('#logout').hide()
       window.location.href = "/login.html"
     }
+
+
+
+
   </script>
   <div class="container" id='container1'></div>
 
   <div class="mb-3" id='select_user'></div>
-  
+
   <div class="container" id='container2'></div>
   <script>
     //토글버튼을 만드는 곳입니다. 
@@ -111,13 +115,29 @@
       var 템플릿 = `<div class="user">
       <div class="thumbnail" style="background-image: url(//f-project-75192.appspot.com/profile/profile.png})"></div>
       <div class="flex-grow-1 p-4">
-        <h5 class="role">${user.data().role}</h5>
+        <h5 class="name">${user.data().name}</h5>
         <p class="email">${user.data().email}</p>
-        <p class="name">${user.data().name}</p>
         <p class="adress">${user.data().adress}</p>
-      </div>
-    </div>`;
+      `;
       $('#container1').append(템플릿)
+      console.log(user.data().role)
+      if (user.data().role == 'user' && user.data().employer == null) {
+        var templete = `<button class="btn btn-outline-secondary" onClick="location.href='/search_employer.html';">회사 찾기</button>
+                    <button type="submit" class="btn btn-outline-secondary" onclick="change_to_employer()">회사 계정으로 전환</button>
+                  </div>
+    </div>`
+        $('#container1').append(templete)
+      } else if (user.data().role == 'user') {
+        var templete = `<button type="submit"  class="btn btn-outline-secondary" onclick="resign()" >회사 탈퇴하기</button>
+        </div>
+    </div>`
+        $('#container1').append(templete)
+      } else {
+        var templete = `<button type="submit"  class="btn btn-outline-secondary" onclick="change_to_user()" >일반 계정으로 전환</button></div>
+    </div>`
+        $('#container1').append(templete)
+      }
+
 
 
       var 내uid = JSON.parse(localStorage.getItem('user')).uid
@@ -175,14 +195,14 @@
           })
 
         })
-        
+
         $('#select_user').append('내자재')
       }
 
     })
 
 
-    function change(id){
+    function change(id) {
       $('#container2').empty()
       console.log(id)
       db.collection('product').where('uid', '==', id).get().then((result) => {
@@ -201,10 +221,55 @@
         })
       })
     }
-
+    console.log(JSON.parse(localStorage.getItem('user')).uid)
 
   </script>
 
+
+  <script>
+    function change_to_employer() {
+      var tochange = {
+        role: 'employer'
+      }
+      db.collection('user').doc(JSON.parse(localStorage.getItem('user')).uid).update(tochange)
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000)
+    }
+
+    function change_to_user() {
+      var tochange = {
+        role: 'user'
+      }
+      console.log(JSON.parse(localStorage.getItem('user')).uid)
+      db.collection('user').doc(JSON.parse(localStorage.getItem('user')).uid).update(tochange)
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000)
+    }
+    function resign() {
+      db.collection('user').doc(JSON.parse(localStorage.getItem('user')).uid).get().then((result) => {
+        console.log(result.data().employer)
+        db.collection('user').doc(result.data().employer).collection('employee').doc(JSON.parse(localStorage.getItem('user')).uid).delete().then(() => {
+    console.log("Document successfully deleted!");
+}).catch((error) => {
+    console.error("Error removing document: ", error);
+});
+      })
+      
+      
+      var userRef = db.collection('user').doc(JSON.parse(localStorage.getItem('user')).uid);
+      
+      // Remove the 'capital' field from the document
+      var remove_employer = userRef.update({
+        employer: firebase.firestore.FieldValue.delete()
+      })
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000)
+    }
+
+  </script>
 
   <div class="container mt-3">
   </div>
