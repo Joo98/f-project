@@ -113,48 +113,57 @@
       var LatLng_customOverlay = new Set();
       db.collection('product').get().then((결과) => {
         결과.forEach((doc) => {
-          var LatLng = doc.data().LatLng;
-          var x =0
-          
-          while (true){
-            if(LatLng_customOverlay.has(LatLng[0] + LatLng[1])){
-              LatLng[0] = String(Number(LatLng[0])+0.003) 
-              x -= 0.95
-              console.log(LatLng)
-            }else{
-              LatLng_customOverlay.add(LatLng[0] + LatLng[1])
-              break
+          if (doc.data().LatLng[0] == LatLng[0] &&doc.data().LatLng[1] == LatLng[1] ) {
+            console.log(doc.data().LatLng)
+            console.log(LatLng)
+          } else {
+            var n_LatLng = doc.data().LatLng;
+            var x = 0
+
+            while (true) {
+              if (LatLng_customOverlay.has(n_LatLng[0] + n_LatLng[1])) {
+                n_LatLng[0] = String(Number(n_LatLng[0]) + 1)
+                x -= 0.95
+              } else {
+                LatLng_customOverlay.add(n_LatLng[0] + n_LatLng[1])
+                break
+              }
             }
 
-          }
-          console.log(LatLng_customOverlay)
-          
-          if (LatLng) {
-            var content = '<div class="customoverlay" >' +
-              '  <a aria-current="page" onClick=location.href="' + '/detail.html?id=' + doc.id + '" target="_blank">' +
-              '    <span class="title">' + doc.data().productname + '</span>' +
-              '  </a>' +
-              '</div>';
-            var customOverlay = new kakao.maps.CustomOverlay({
-              position: new kakao.maps.LatLng(Number(doc.data().LatLng[0]), Number(doc.data().LatLng[1])),
-              content: content,
-              xAnchor: 0.5 , // 커스텀 오버레이의 x축 위치입니다. 1에 가까울수록 왼쪽에 위치합니다. 기본값은 0.5 입니다
-              yAnchor: -0.9+ x // 커스텀 오버레이의 y축 위치입니다. 1에 가까울수록 위쪽에 위치합니다. 기본값은 0.5 입니다
-            });
-            customOverlay.setMap(map);
+              console.log(LatLng_customOverlay)
 
+
+              var content = '<div class="customoverlay" >' +
+                '  <a aria-current="page" onClick=location.href="' + '/detail.html?id=' + doc.id + '" target="_blank">' +
+                '    <span class="title">' + doc.data().productname + '</span>' +
+                '  </a>' +
+                '</div>';
+              var customOverlay = new kakao.maps.CustomOverlay({
+                position: new kakao.maps.LatLng(Number(doc.data().LatLng[0]), Number(doc.data().LatLng[1])),
+                content: content,
+                xAnchor: 0.5, // 커스텀 오버레이의 x축 위치입니다. 1에 가까울수록 왼쪽에 위치합니다. 기본값은 0.5 입니다
+                yAnchor: -0.9 + x // 커스텀 오버레이의 y축 위치입니다. 1에 가까울수록 위쪽에 위치합니다. 기본값은 0.5 입니다
+              });
+              customOverlay.setMap(map);
+
+            
           }
+
         })
       })
-     
-      // 마커가 지도 위에 표시되도록 설정합니다
-     
 
-      
+      // 마커가 지도 위에 표시되도록 설정합니다
+
+
+
       var marker = new kakao.maps.Marker({
         position: new kakao.maps.LatLng(Number(LatLng[0]), Number(LatLng[1]))
       });
-      marker.setMap(map);
+
+      setTimeout(() => {
+        marker.setMap(map);
+      }, 1000)
+
 
 
 
