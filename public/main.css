@@ -4,15 +4,23 @@ body {
   margin: 0px;
   padding: 0px;
 }
+.p-4{
+  padding-top: 70px!important;
+}
 .navbar{
   position: fixed;
   left: 0;
   top: 0;
   right: 0;
   height: 60px;
+  z-index:9998;
+}
+.navbar-toggler{
+  z-index: 9999;
 }
 .navbar-collapse{
   background-color: #fff;
+  z-index: 10;
 }
 .logo{
   width :34px;
@@ -26,10 +34,12 @@ body {
   border: 0px;
   background-color: var(--white);
   cursor: pointer;
+  
 }
 .searchBar{
   margin-top: 18px;
   width: 72%;
+  
 }
 .btnSearch {
   margin-right:16px;
