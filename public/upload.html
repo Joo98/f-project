@@ -106,7 +106,7 @@
       db.collection('user').doc(JSON.parse(뺀거).uid).get().then((result) => {
         var file = document.querySelector('#image').files[0];
         var storageRef = storage.ref();
-        var 저장할경로 = storageRef.child('image/' + file.name);
+        var 저장할경로 = storageRef.child('image/' + file.name + str(Date()));
         var 업로드작업 = 저장할경로.put(file);
 
         업로드작업.on('state_changed',
