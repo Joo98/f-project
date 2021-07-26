@@ -16,39 +16,26 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/index.html">가구마켓</a>
-                <span class='ms-auto mx-2' id="userName">
-                    <button type="submit" class="btn btn-primary" onClick="location.href='/login.html';">로그인하기</button>
-                </span>
-                <button type="submit" class="btn btn-primary" id="logout">로그아웃</button>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/mypage.html">마이페이지</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/community_index.html">커뮤니티</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/map.html">내주변</a>
-                        </li>
-                        <form class="d-flex">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
-                </div>
-            </div>
-        </nav>
-    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" position : fixed;>
+        <div class="container-fluid">
+          <a class="logo" href="/index.html">
+            <img src ="img/logo.jpg">
+          </a>
+         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="flex"></form>
+              <input class="searchBar" type="search" placeholder="Search" aria-label="Search" id="search_input">
+              <button class="btnSearch" type="submit" id="search">Search</button>
+              <a class="header-alarm" href ="/notice.html">
+                <img src="img/alarm.png">
+                </a>
+            </form>
+          </div>
+        </div>
+      </nav>
             
         
 

@@ -1,3 +1,32 @@
+html,
+body {
+  min-height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+.navbar{
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 60px;
+}
+.navbar-collapse{
+  background-color: #fff;
+}
+.logo{
+  width :34px;
+  height :30px;
+  margin-bottom :15px;
+ 
+}
+.header-alarm{
+  width: 24px;   
+  float: right;
+  border: 0px;
+  background-color: var(--white);
+  cursor: pointer;
+}
 .searchBar{
   margin-top: 18px;
   width: 72%;
@@ -11,6 +40,9 @@
   box-shadow: none;
   font-weight: 400;
   color: #fff;
+}
+.mt-3{
+  margin-top : 60px!important;
 }
 .product {
   display: flex;
