@@ -14,6 +14,7 @@ ul {
     border-top: 1px solid var(--gray30);
     width: 100%;
     z-index: 9999;
+    
   }
   
   .tabmenu ul li {

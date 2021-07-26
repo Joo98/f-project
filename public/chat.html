@@ -156,7 +156,10 @@
 
     var 채팅방id;
 
-
+    $('#search').click(function () {
+      console.log($('#search_input').val())
+      window.location.href = "/search.html?id="+$('#search_input').val()
+    })
     $('#send').click(function () {
       var 데이터 = {
         content: $('#chat-input').val(),

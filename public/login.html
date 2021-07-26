@@ -84,6 +84,12 @@
     const db = firebase.firestore();
     const storage = firebase.storage();
     var 뺀거 = localStorage.getItem('user')
+
+    $('#search').click(function () {
+      console.log($('#search_input').val())
+      window.location.href = "/search.html?id="+$('#search_input').val()
+    })
+
     if (뺀거) {
       window.location.href = "/index.html"
     }else{

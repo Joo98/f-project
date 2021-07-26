@@ -115,7 +115,10 @@
                 })
             })
 
-            
+            $('#search').click(function () {
+      console.log($('#search_input').val())
+      window.location.href = "/search.html?id="+$('#search_input').val()
+    }) 
     
     function okay(notice) {
         db.collection('notice').doc(notice).get().then((결과) => {

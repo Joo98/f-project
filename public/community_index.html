@@ -83,6 +83,10 @@
       $('#logout').hide()
       
     }
+    $('#search').click(function () {
+      console.log($('#search_input').val())
+      window.location.href = "/search.html?id="+$('#search_input').val()
+    })
     db.collection('community').orderBy('date').get().then((결과) => {
       결과.forEach((doc) => {
         console.log(doc.data().img);

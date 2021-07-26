@@ -77,6 +77,10 @@
       localStorage.removeItem('user')
       window.location.reload()
     })
+    $('#search').click(function () {
+      console.log($('#search_input').val())
+      window.location.href = "/search.html?id="+$('#search_input').val()
+    })
     var 뺀거 = localStorage.getItem('user')
     if (뺀거) {
       $('#userName').html(JSON.parse(뺀거).displayName)

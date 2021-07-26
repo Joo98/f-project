@@ -162,6 +162,11 @@
     const db = firebase.firestore();
     const storage = firebase.storage();
 
+    $('#search').click(function () {
+      console.log($('#search_input').val())
+      window.location.href = "/search.html?id="+$('#search_input').val()
+    })
+
     //유저정보 확인
     if (localStorage.getItem('user')) {
       뺀거 = localStorage.getItem('user')
