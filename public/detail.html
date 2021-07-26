@@ -111,11 +111,13 @@
             <h5>올린사람 : ${result.data().username}</h5>
             <hr>
             <h5 class="title">${result.data().productname}</h5>
-            <p class="date">${Date(result.data().date)} </p>
-            <p class="price">${result.data().price}원</p>
+            <p class="date">올린 날짜 : ${Date(result.data().date)} </p>
+            <p class="price">가격 : ${result.data().price}원</p>
+            <p class="price">규격 / 개수 : ${result.data().size}</p>
           </div>
           <button class="btn btn-outline-secondary" id = 'edit'>수정</button>
           <button class="btn btn-outline-secondary" id = 'chat'>채팅</button>
+          <button class="btn btn-outline-secondary" id = 'delete'>삭제</button>
       </div>`
 
       $('.container').append(템플릿)
@@ -125,12 +127,14 @@
       })
 
       var 내uid = JSON.parse(localStorage.getItem('user')).uid
-      var chatroomif 
-      if(판매자uid == 내uid){
+      var chatroomif
+      if (판매자uid == 내uid) {
         $('#chat').hide()
-        }
+      } else {
+        $('#delete').hide()
+      }
       $('#chat').click(function () {
-        
+
         db.collection('chatroom').get().then((결과) => {
           결과.forEach((doc) => {
 
@@ -143,11 +147,24 @@
           })
         })
 
+        
 
+        db.collection('chatroom').get().then((결과) => {
+          결과.forEach((doc) => {
+
+            if (JSON.stringify(doc.data().who) == JSON.stringify([내uid, 판매자uid]) && doc.data().product == 상품명) {
+              bl = true
+              console.log('yeah')
+              window.location.href = `chat.html?id= ${doc.id}`
+              
+            }
+          })
+        })
+        
 
         var 데이터 = {
           who: [내uid, 판매자uid],
-          who_name: [JSON.parse(뺀거).displayName,result.data().username],
+          who_name: [JSON.parse(뺀거).displayName, result.data().username],
           product: 상품명,
           date: new Date()
         }
@@ -159,10 +176,18 @@
 
       })
 
+      $('#delete').click(function () {
+          console.log(쿼리스트링.get('id'))
+          db.collection("product").doc(쿼리스트링.get('id')).delete().then(() => {
+            console.log("Document successfully deleted!");
+            window.location.href = "/index.html"
+          }).catch((error) => {
+            console.error("Error removing document: ", error);
+          });
+        })
 
     })
-
-
+    
   </script>
 
   <div class="container mt-4">

@@ -79,9 +79,10 @@
   </script>
 
   <div class="container mt-3">
-    <input type="text" class="form-control mt-2" id="title" placeholder="title">
-    <textarea class="form-control mt-2" id="content" placeholder="content"></textarea>
-    <input type="text" class="form-control mt-2" id="price" placeholder="price">
+    <input type="text" class="form-control mt-2" id="title" placeholder="제품명">
+    <textarea class="form-control mt-2" id="content" placeholder="상세설명"></textarea>
+    <input type="text" class="form-control mt-2" id="price" placeholder="가격">
+    <input type="text" class="form-control mt-2" id="size" placeholder="규격 / 수량">
     <input class="form-control mt-2" type="file" id="image">
     <button class="btn btn-danger mt-3" id="send">올리기</button>
   </div>
@@ -106,7 +107,7 @@
       db.collection('user').doc(JSON.parse(뺀거).uid).get().then((result) => {
         var file = document.querySelector('#image').files[0];
         var storageRef = storage.ref();
-        var 저장할경로 = storageRef.child('image/' + file.name + str(Date()));
+        var 저장할경로 = storageRef.child('image/' + file.name);
         var 업로드작업 = 저장할경로.put(file);
 
         업로드작업.on('state_changed',
@@ -125,6 +126,7 @@
                 productname: $('#title').val(),
                 price: $('#price').val(),
                 contents: $('#content').val(),
+                size: $('#size').val(),
                 date: new Date(),
                 img: url,
                 uid: JSON.parse(localStorage.getItem('user')).uid,
