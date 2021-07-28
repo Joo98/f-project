@@ -68,17 +68,10 @@
 
 
   <script>
-       var 쿼리스트링 = new URLSearchParams(window.location.search);
-  
+    var 쿼리스트링 = new URLSearchParams(window.location.search);
 
     const db = firebase.firestore();
     const storage = firebase.storage();
-
-    $('#logout').click(function () {
-      firebase.auth().signOut()
-      localStorage.removeItem('user')
-      window.location.reload()
-    })
 
     $('#search').click(function () {
       console.log($('#search_input').val())
@@ -89,7 +82,7 @@
       $('#userName').html(JSON.parse(뺀거).displayName)
 
     } else {
-      $('#logout').hide()
+     
     }
 
     var 게시자uid;

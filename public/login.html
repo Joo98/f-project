@@ -68,7 +68,7 @@
 
   </script>
 
-
+  //로그인창
   <div class="container mt-3">
     <div class="mb-3">
       <input type="email" class="form-control" placeholder="email" id="email">
@@ -90,10 +90,9 @@
       window.location.href = "/search.html?id="+$('#search_input').val()
     })
 
+    //로그인 상태이면 메인페이지로
     if (뺀거) {
       window.location.href = "/index.html"
-    }else{
-      $('#logout').hide()
     }
 
 
@@ -107,17 +106,11 @@
 
       }
     })
-    $('#gotologin').click(function () {
-      window.location.href = "/login.html"
-    })
-
-    $('#logout').click(function () {
-      firebase.auth().signOut()
-      localStorage.removeItem('user')
-    })
+    //가입하기 function
     $('#register').click(function () {
       window.location.href = "/register.html"
     })
+    //login function
     $('#login').click(function () {
       var 이메일 = $('#email').val();
       var 패스워드 = $('#pw').val();

@@ -69,9 +69,10 @@
   </script>
 
   <div class="container mt-3">
-    <input type="text" class="form-control mt-2" id="title" placeholder="title">
-    <textarea class="form-control mt-2" id="content" placeholder="content"></textarea>
-    <input type="text" class="form-control mt-2" id="price" placeholder="price">
+    <input type="text" class="form-control mt-2" id="title" placeholder="제품명">
+    <textarea class="form-control mt-2" id="content" placeholder="상세내용"></textarea>
+    <input type="text" class="form-control mt-2" id="price" placeholder="가격">
+    <input type="text" class="form-control mt-2" id="size" placeholder="규격 / 수량">
     <div>수정하실려면 수정하실 파일을 올려주세요!</div>
     <input class="form-control mt-2" type="file" id="image">
     
@@ -105,14 +106,15 @@
       $('#title').val(result.data().productname)
       $('#content').val(result.data().contents)
       $('#price').val(result.data().price)
-      
+      $('#size').val(result.data().size)
     })
     
     $('#send').click(function () {
       var tochange = {
         productname: $('#title').val(),
         price: $('#price').val(),
-        contents: $('#content').val()
+        contents: $('#content').val(),
+        size: $('#size').val()
       }
       if( $('#content').val()){
         var file = document.querySelector('#image').files[0];

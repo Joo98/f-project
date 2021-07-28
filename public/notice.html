@@ -67,6 +67,7 @@
 
 
         </script>
+        //알림이 들어가는 곳
         <div class="container" id='container1'></div>
 
         <script>
@@ -85,6 +86,7 @@
             }
             var 내uid = JSON.parse(뺀거).uid
             console.log(내uid)
+            //내 계정으로 보낸 notice를 case에 따라서 출력
             db.collection('notice').where('to', '==', 내uid).get().then((결과) => {
                 결과.forEach((doc) => {
                     var 템플릿
@@ -119,7 +121,7 @@
       console.log($('#search_input').val())
       window.location.href = "/search.html?id="+$('#search_input').val()
     }) 
-    
+    //확인 버튼 함수
     function okay(notice) {
         db.collection('notice').doc(notice).get().then((결과) => {
             var 데이터 = {

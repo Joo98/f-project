@@ -68,6 +68,7 @@
 
   </script>
 
+  //업로드 박스
   <div class="container mt-3">
     <input type="text" class="form-control mt-2" id="title" placeholder="title">
     <textarea class="form-control mt-2" id="content" placeholder="content"></textarea>
@@ -93,11 +94,12 @@
       $('#logout').hide()
       window.location.href = "/login.html"
     }
-
+    //업로드 버튼 클릭시 function
     $('#send').click(function () {
 
       var file = document.querySelector('#image2').files[0];
       var storageRef = storage.ref();
+       //이부분은 현재 파일이름을 그대로 받아와서 파일명이 같은 파일이 있으면 충돌이 발생하니 원하시는 이름으로 저장하게 설정하세요!
       var 저장할경로 = storageRef.child('image2/' + file.name);
       var 업로드작업 = 저장할경로.put(file);
 

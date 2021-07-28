@@ -68,6 +68,7 @@
 
 
   </script>
+  // 채팅룸 좌측 리스트 박스
   <div class="container p-4 detail">
     <div class="row">
       <div class="col-3 p-0">
@@ -92,11 +93,7 @@
     const db = firebase.firestore();
     const storage = firebase.storage();
 
-    $('#logout').click(function () {
-      firebase.auth().signOut()
-      localStorage.removeItem('user')
-      window.location.reload()
-    })
+    
 
 
     var 뺀거 = localStorage.getItem('user')
@@ -104,12 +101,14 @@
       $('#userName').html(JSON.parse(뺀거).displayName)
 
     } else {
-      $('#logout').hide()
       window.location.href = "/login.html"
     }
+    //로컬 스토리지에서 내정보 가져오기
     var 내uid = JSON.parse(localStorage.getItem('user')).uid
     var cnt = 0;
-    var id_list = new Array();
+    var id_list = new Array();//표시된 채팅룸 아이디들을 저장해둘 곳
+
+    //채팅방 형성
     db.collection('chatroom').where('who', 'array-contains', 내uid).get().then((result) => {
       result.forEach((a) => {
         
@@ -119,7 +118,7 @@
         }else{
           othername = a.data().who_name[0]
         }
-        id_list[cnt] = a.id;
+        id_list[cnt] = a.id;//나중에 클릭시 채팅룸 id를 알아야지 접근이 가능하여 저장합니다.
         
         console.log(id_list)
         var template = `<li class="list-group-item" value = "${cnt}">
@@ -160,6 +159,7 @@
       console.log($('#search_input').val())
       window.location.href = "/search.html?id="+$('#search_input').val()
     })
+    //채팅 메세지 입력시 DB에 저장
     $('#send').click(function () {
       var 데이터 = {
         content: $('#chat-input').val(),

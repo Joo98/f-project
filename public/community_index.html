@@ -66,9 +66,11 @@
 
 
   </script>
+  //업로드 버튼
  <div class = 'button'>
   <button type="button" class="circle" onClick="location.href='/community_upload.html';">+</button>
 </div>
+
   <script>
 
     const db = firebase.firestore();
@@ -79,14 +81,13 @@
       db.collection('user').doc(JSON.parse(뺀거).uid).get().then((doc) =>{    
         $('#short').html(doc.data().short)
       })
-    } else {
-      $('#logout').hide()
-      
     }
+
     $('#search').click(function () {
       console.log($('#search_input').val())
       window.location.href = "/search.html?id="+$('#search_input').val()
     })
+
     db.collection('community').orderBy('date').get().then((결과) => {
       결과.forEach((doc) => {
         console.log(doc.data().img);

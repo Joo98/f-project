@@ -117,7 +117,7 @@
       }).open();
     }
   </script>
-
+  //가입 입력 박스
   <div class="container mt-3">
     <div class="mb-3">
       <select size = '1' id = 'role-new'>
@@ -184,7 +184,7 @@
 
       }
     })
-
+    //가입 function
     $('#register').click(function () {
       var 이메일 = $('#email-new').val();
       var 패스워드 = $('#pw-new').val();
@@ -192,7 +192,7 @@
       var 우편번호 = $('#postcode').val();
       var 주소 = $('#address').val();
       var 상세주소 = $('#detailAddress').val();
-      var 역할 = $('#role-new').val();
+      var 역할 = $('#role-new option:checked').val();
       var 간단한주소 = $('#short-new').val();
       
       var geocoder = new kakao.maps.services.Geocoder();
@@ -273,41 +273,7 @@
   
   </ul>
 </div>
-<!-- 하단 탭바 작업 -->
-<div class="tabmenu">
-  <ul>
-  
-  <li id="tab1" class="tabButton">
-          <a class="cat" href="/index.html">
-          <img src="./img/home.png" style="width: 72px;"></a>
-  </li>
-          
-  
-   <li id="tab2" class="tabButton">
-      <a class="cat" href="/community_index.html">
-      <img src="./img/community.png" style="width: 72px;"></label>
-  </li>
-           
-  
-  <li id="tab3" class="tabButton">
-      <a class="cat" href="/map.html">
-      <img src="./img/location.png"style="width: 72px;"></label>
-  </li>
-  
-  
-  <li id="tab4" class="tabButton">
-      <a class="cat" href="/chat.html">
-      <img src="./img/chat.png" style="width: 72px;"></label>
-  </li>
-  
-  
-  <li id="tab5" class="tabButton">
-      <a class="cat" href="/mypage.html">
-      <img src="./img/profile.png" style="width: 72px;"></label>
-  </li>
-  
-  </ul>
-</div>
+
 
 
 

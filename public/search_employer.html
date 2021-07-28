@@ -86,7 +86,6 @@
             $('#userName').html(JSON.parse(뺀거).displayName)
 
         } else {
-            $('#logout').hide()
             window.location.href = "/login.html"
         }
 
@@ -94,7 +93,7 @@
             console.log($('#search_input').val())
             window.location.href = "/search_employer.html?id=" + $('#search_input').val()
         })
-
+        //회사 가입 버튼 누를경우
         function send(id) {
             var 데이터
             var 상대id = id
@@ -116,7 +115,7 @@
               })
         }
 
-
+        
         var 내uid = JSON.parse(뺀거).uid
         console.log(id)
         if (id == null) {

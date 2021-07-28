@@ -19,8 +19,9 @@ body {
   z-index: 9999;
 }
 .navbar-collapse{
-  background-color: #fff;
+  background-color: #eee;
   z-index: 10;
+  width: 100%;
 }
 .logo{
   width :34px;
@@ -145,5 +146,9 @@ body {
 .customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
 .tabmenu {
   bottom: 0px;
+}
+
+#map {
+  z-index: 10;
 }
 
