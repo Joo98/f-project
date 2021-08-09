@@ -221,9 +221,6 @@
           result.user.updateProfile({ displayName: username })
         }).then(()=>{
           setTimeout(() => {
-          firebase.auth().signOut()
-          localStorage.removeItem('user')
-          window.location.reload()
           window.location.href = "/login.html"
         }, 5000);
         })

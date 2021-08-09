@@ -58,7 +58,7 @@ body {
 /*부트스트랩에서 발생한 문제 수정*/
 .mt-3{
   margin-top : 60px!important;
-  height:490px;
+  height: 470px;
   overflow:scroll;
 }
 /*상품 전시*/
