@@ -122,7 +122,6 @@
     <div class="mb-3">
       <select size = '1' id = 'role-new'>
         <option value="user" selected>직원용</option>
-        <option value="employer">회사용</option>
       </select>
     
     </div>
@@ -133,7 +132,7 @@
       <input type="email" class="form-control" placeholder="email" id="email-new">
     </div>
     <div class="mb-3">
-      <input type="password" class="form-control" placeholder="pw" id="pw-new">
+      <input type="password" class="form-control" placeholder="pw는 6자리보다 길어야합니다." id="pw-new">
     </div>
     현장 주소
     <div class="mb-3">
@@ -149,6 +148,9 @@
     </div>
 
     <button type="submit" class="btn btn-primary" id="register">가입하기</button>
+    <div>
+      <h10 id = 'warning' >모든 칸에 입력을 기입해 주세요!</h10>
+    </div>
   </div>
 
 
@@ -159,6 +161,7 @@
   </div>
 
   <script>
+    $('#warning').hide()
     const db = firebase.firestore();
     const storage = firebase.storage();
 
@@ -186,7 +189,8 @@
     })
     //가입 function
     $('#register').click(function () {
-      var 이메일 = $('#email-new').val();
+      if ($('#email-new').val()&&$('#pw-new').val()&&$('#name-new').val()&&$('#postcode').val()&&$('#address').val()&&$('#detailAddress').val()&&$('#short-new').val()){
+        var 이메일 = $('#email-new').val();
       var 패스워드 = $('#pw-new').val();
       var username = $('#name-new').val();
       var 우편번호 = $('#postcode').val();
@@ -219,13 +223,23 @@
           
           db.collection('user').doc(result.user.uid).set(유저정보)
           result.user.updateProfile({ displayName: username })
+          
+          
         }).then(()=>{
+          if (역할 == 'employer'){
+            db.collection('user').doc(JSON.parse(localStorage.getItem('user')).uid).collection('employee').doc(JSON.parse(localStorage.getItem('user')).uid).set(데이터)
+          }
           setTimeout(() => {
           window.location.href = "/login.html"
         }, 5000);
         })
         
         
+      } else{
+        $('#warning').show()
+      }
+
+      
     })
 
 

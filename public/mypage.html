@@ -163,8 +163,10 @@
         
       } else {
         //일반유저일 경우
+        var bl = true
         db.collection('product').where('uid', '==', 내uid).get().then((result) => {
           result.forEach((doc) => {
+            bl = false
             var 템플릿 = `<div class="product">
       <div class="thumbnail" style="background-image: url(${doc.data().img})"></div>
       <div class="flex-grow-1 p-4">
@@ -177,6 +179,10 @@
             $('#container2').append(템플릿)
 
           })
+          if (bl){
+          var 템플릿 = `<h10>유저가 올린 상품이 없습니다!</h10>`
+          $('#container2').append(템플릿)
+        }
 
         })
 

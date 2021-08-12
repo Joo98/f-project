@@ -74,10 +74,13 @@
     <input type="text" class="form-control mt-2" id="size" placeholder="규격 / 수량">
     <input class="form-control mt-2" type="file" id="image">
     <button class="btn btn-danger" id="send">올리기</button>
+    <div>
+      <h10 id = 'warning' >모든 칸에 입력해주세요!</h10>
+    </div>
   </div>
 
   <script>
-
+    $('#warning').hide()
     const db = firebase.firestore();
     const storage = firebase.storage();
 
@@ -93,12 +96,17 @@
     }
 
     $('#send').click(function () {
+
       db.collection('user').doc(JSON.parse(뺀거).uid).get().then((result) => {
         var file = document.querySelector('#image').files[0];
         var storageRef = storage.ref();
+        
+        if (!(file && $('#title').val() !="" && $('#content').val() !="" && $('#size').val() !="" &&$('#price').val() !="" )){
+        $('#warning').show()
+      } else{
         var 저장할경로 = storageRef.child('image/' + file.name);
         var 업로드작업 = 저장할경로.put(file);
-
+        
         업로드작업.on('state_changed',
           // 변화시 동작하는 함수 
           null,
@@ -132,6 +140,8 @@
             });
           }
         );
+      }
+        
 
       })
     })
