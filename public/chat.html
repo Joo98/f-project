@@ -78,7 +78,7 @@
         <div class="chat-room">
           <span class="list-group chat-content">
           </span>
-          <div class="input-group">
+          <div class="input-group" id= 'send_box'>
             <input class="form-control" id="chat-input">
             <button class="btn btn-secondary" id="send">전송</button>
           </div>
@@ -128,7 +128,7 @@
         cnt +=1
         //저거 박스 누르면 채팅방 id 가져오는 코드
         $('.list-group-item').click(function (e) {
-          
+          $('#send_box').show()
           채팅방id = id_list[$(this).val()]
           console.log(채팅방id)
           e.stopImmediatePropagation();
@@ -153,7 +153,7 @@
     })
 
     var 채팅방id;
-
+    $('#send_box').hide()
     $('#search').click(function () {
       console.log($('#search_input').val())
       window.location.href = "/search.html?id="+$('#search_input').val()
