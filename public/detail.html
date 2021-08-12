@@ -130,32 +130,16 @@
 
         db.collection('chatroom').get().then((결과) => {
           결과.forEach((doc) => {
-
             if (JSON.stringify(doc.data().who) == JSON.stringify([내uid, 판매자uid]) && doc.data().product == 상품명) {
               bl = true
-              console.log('yeah')
-              window.location.href = `chat.html?id= ${doc.id}`
-
-            }
-          })
-        })
-
-        
-
-        db.collection('chatroom').get().then((결과) => {
-          결과.forEach((doc) => {
-
-            if (JSON.stringify(doc.data().who) == JSON.stringify([내uid, 판매자uid]) && doc.data().product == 상품명) {
-              bl = true
-              console.log('yeah')
-              window.location.href = `chat.html?id= ${doc.id}`
               
+              window.location.href = `chat.html?id= ${doc.id}`
+
             }
           })
         })
-        
-
-        var 데이터 = {
+        if (bl){
+          var 데이터 = {
           who: [내uid, 판매자uid],
           who_name: [JSON.parse(뺀거).displayName, result.data().username],
           product: 상품명,
@@ -166,6 +150,8 @@
 
           window.location.href = "/chat.html"
         }, 2000);
+        }
+        
 
       })
 
