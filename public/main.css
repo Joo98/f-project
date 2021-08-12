@@ -8,6 +8,7 @@ body {
 /*부트스트랩의 container에서 발생하는 오류 수정*/
 .p-4{
   padding-top: 70px!important;
+  overflow-y: scroll;
 }
 /*상단 내비게이션 바 부분*/
 .navbar{
@@ -148,7 +149,9 @@ body {
   width:50px;
   height:50px;
   border-radius: 50%;
-  background:#F78181;
+  background:#199bfa;
+  border-color: #fff;
+  box-shadow: none;
 }
 /*map*/
 .customoverlay {position:relative;
