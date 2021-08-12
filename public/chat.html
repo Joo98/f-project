@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="main.css">
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-
 <body>
   <!--네브바(상단)-->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -76,9 +75,9 @@
       </div>
       <div class="col-9 p-0">
         <div class="chat-room">
-          <span class="list-group chat-content">
+          <span class="list-group chat-content" id="chat-room">
           </span>
-          <div class="input-group" id= 'send_box'>
+          <div class="input-group">
             <input class="form-control" id="chat-input">
             <button class="btn btn-secondary" id="send">전송</button>
           </div>
@@ -86,39 +85,16 @@
       </div>
     </div>
   </div>
-  
 
   <script>
-     var div2 = document.getElementsByClassName("list-group-item");
-    console.log(div2)
-function handleClick(event) {
-  console.log(event.target);
- 
-
-  console.log(event.target.classList);
-
-  if (event.target.classList[1] === "clicked") {
-    event.target.classList.remove("clicked");
-  } else {
-    for (var i = 0; i < div2.length; i++) {
-      div2[i].classList.remove("clicked");
-    }
-
-    event.target.classList.add("clicked");
-  }
-}
-
-function init() {
-  for (var i = 0; i < div2.length; i++) {
-    div2[i].addEventListener("click", handleClick);
-  }
-}
-
-init();
+      
+      
+    
     const db = firebase.firestore();
     const storage = firebase.storage();
-
     
+    
+
 
 
     var 뺀거 = localStorage.getItem('user')
@@ -154,16 +130,16 @@ init();
         cnt +=1
         //저거 박스 누르면 채팅방 id 가져오는 코드
         $('.list-group-item').click(function (e) {
-          $('#send_box').show()
+          
           채팅방id = id_list[$(this).val()]
           console.log(채팅방id)
           e.stopImmediatePropagation();
 
           db.collection('chatroom').doc(채팅방id).collection('messages').orderBy('date').onSnapshot((result) => {
             $('.chat-content').html('');
-
+            
             result.forEach((a) => {
-              console.log(a)
+              
               if(a.data().uid == 내uid){
               var 템플릿 = `<li><span class="chat-box mine">${a.data().content}</span></li>`;
               $('.chat-content').append(템플릿)}
@@ -179,7 +155,8 @@ init();
     })
 
     var 채팅방id;
-    $('#send_box').hide()
+    
+
     $('#search').click(function () {
       console.log($('#search_input').val())
       window.location.href = "/search.html?id="+$('#search_input').val()
@@ -191,12 +168,13 @@ init();
         date: new Date(),
         uid: 내uid
       }
-
+      $(document).ready(function(){ $('#chat-room').scrollTop($("#chat-room")[0].scrollHeight);});
       db.collection('chatroom').doc(채팅방id).collection('messages').add(데이터)
 
     })
     
-    
+   
+   
   </script>
 
 <!-- 하단 탭바 작업 -->
