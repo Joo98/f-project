@@ -158,23 +158,9 @@
           console.log(토글버튼)
           $('#select_user').append(토글버튼)
         }, 1000)
-
-        db.collection('product').where('uid', '==', 내uid).get().then((result) => {
-          result.forEach((doc) => {
-            var 템플릿 = `<div class="product">
-      <div class="thumbnail" style="background-image: url(${doc.data().img})"></div>
-      <div class="flex-grow-1 p-4">
-        <h5 class="title"><a href="/detail.html?id=${doc.id}">${doc.data().productname}</a></h5>
-        <p class="date">${Date(doc.data().date)}</p>
-        <p class="price">${doc.data().price}원</p>
+        var 템플릿 = `<h10>유저를 선택해서 자재를 확인하세요!</h10>`
+        $('#container2').append(템플릿)
         
-      </div>
-    </div>`;
-            $('#container2').append(템플릿)
-
-          })
-
-        })
       } else {
         //일반유저일 경우
         db.collection('product').where('uid', '==', 내uid).get().then((result) => {
@@ -203,8 +189,10 @@
     function change(id) {
       $('#container2').empty()
       console.log(id)
+      bl = true // 자재가 하나라도 있으면 false 없으면 true
       db.collection('product').where('uid', '==', id).get().then((result) => {
         result.forEach((doc) => {
+          bl = false
           var 템플릿 = `<div class="product">
       <div class="thumbnail" style="background-image: url(${doc.data().img})"></div>
       <div class="flex-grow-1 p-4">
@@ -217,6 +205,10 @@
           $('#container2').append(템플릿)
 
         })
+        if (bl){
+          var 템플릿 = `<h10>유저가 올린 상품이 없습니다!</h10>`
+          $('#container2').append(템플릿)
+        }
       })
     }
     console.log(JSON.parse(localStorage.getItem('user')).uid)
