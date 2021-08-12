@@ -134,6 +134,14 @@ body {
   padding: 5px;
   border-radius: 5px;
   float: left;
+  color:black;
+  
+}
+.clicked{
+  color:black;
+}
+.list-group-item{
+  color:#888;
 }
 /*mine 태그에 오른쪽 정렬부여*/
 .mine {
