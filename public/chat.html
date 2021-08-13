@@ -77,7 +77,7 @@
         <div class="chat-room">
           <span class="list-group chat-content" id="chat-room">
           </span>
-          <div class="input-group">
+          <div class="input-group" id = 'chatbox'>
             <input class="form-control" id="chat-input">
             <button class="btn btn-secondary" id="send">전송</button>
           </div>
@@ -88,12 +88,12 @@
 
   <script>
       
-      
+    $('#chatbox').hide()
     
     const db = firebase.firestore();
     const storage = firebase.storage();
     
-    
+    $('.chat-content').html('채팅방을 선택해주세요')
 
 
 
@@ -131,6 +131,7 @@
         //저거 박스 누르면 채팅방 id 가져오는 코드
         $('.list-group-item').click(function (e) {
           
+          $('#chatbox').show()
           채팅방id = id_list[$(this).val()]
           console.log(채팅방id)
           e.stopImmediatePropagation();
