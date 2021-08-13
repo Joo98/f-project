@@ -11,7 +11,21 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="main.css">
   <link rel="stylesheet" type="text/css" href="style.css">
+  <script>
+     function inputNumberFormat(obj) {
+     obj.value = comma(uncomma(obj.value));
+ }
 
+ function comma(str) {
+     str = String(str);
+     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+ }
+
+ function uncomma(str) {
+     str = String(str);
+     return str.replace(/[^\d]+/g, '');
+ }
+  </script>
 </head>
 
 <body>
@@ -70,7 +84,7 @@
   <div class="container mt-3">
     <input type="text" class="form-control mt-2" id="title" placeholder="제품명">
     <textarea class="form-control mt-2" id="content" placeholder="상세설명"></textarea>
-    <input type="text" class="form-control mt-2" id="price" placeholder="가격">
+    <input type="text" class="form-control mt-2" id="price" onkeyup="inputNumberFormat(price)" placeholder="가격">
     <input type="text" class="form-control mt-2" id="size" placeholder="규격 / 수량">
     <input class="form-control mt-2" type="file" id="image">
     <button class="btn btn-danger" id="send">올리기</button>
@@ -84,7 +98,7 @@
     const db = firebase.firestore();
     const storage = firebase.storage();
 
-
+    
     //유저정보 확인
     var 뺀거 = localStorage.getItem('user')
     if (뺀거) {
@@ -121,8 +135,8 @@
 
               var tosave = {
                 productname: $('#title').val(),
-                price: $('#price').val(),
                 contents: $('#content').val(),
+                price: $('#price').val(),
                 size: $('#size').val(),
                 date: new Date(),
                 img: url,
@@ -131,12 +145,18 @@
                 short: result.data().short,
                 LatLng: result.data().LatLng
               }
+              
+              
+             
+              
+              
               db.collection('product').add(tosave).then((result) => {
                 console.log(result)
                 window.location.href = "/index.html"
               }).catch((err) => {
                 console.log(err)
               })
+             
             });
           }
         );
