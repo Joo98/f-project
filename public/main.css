@@ -137,8 +137,10 @@ body {
   color:black;
   
 }
-.clicked{
-  color:black;
+.input-group{
+  position: fixed;
+  width:auto;
+  z-index:9999;
 }
 
 /*mine 태그에 오른쪽 정렬부여*/

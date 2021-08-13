@@ -127,11 +127,12 @@
         $('#delete').hide()
       }
       $('#chat').click(function () {
-
+        var bl =true
+        console.log('chat')
         db.collection('chatroom').get().then((결과) => {
           결과.forEach((doc) => {
             if (JSON.stringify(doc.data().who) == JSON.stringify([내uid, 판매자uid]) && doc.data().product == 상품명) {
-              bl = true
+              bl = false
               
               window.location.href = `chat.html?id= ${doc.id}`
 
