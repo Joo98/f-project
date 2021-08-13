@@ -107,6 +107,7 @@
             <p class="date">올린 날짜 : ${Date(result.data().date)} </p>
             <p class="price">가격 : ${result.data().price}원</p>
             <p class="price">규격 / 개수 : ${result.data().size}</p>
+            <p class="contents">내용 : ${result.data().contents}</p>
           </div>
           <button class="btn btn-outline-secondary" id = 'edit'>수정</button>
           <button class="btn btn-outline-secondary" id = 'chat'>채팅</button>
@@ -125,21 +126,25 @@
         $('#chat').hide()
       } else {
         $('#delete').hide()
+        $('#edit').hide()
       }
       $('#chat').click(function () {
         var bl =true
         console.log('chat')
         db.collection('chatroom').get().then((결과) => {
           결과.forEach((doc) => {
+            console.log(JSON.stringify(doc.data().who) == JSON.stringify([내uid, 판매자uid]))
             if (JSON.stringify(doc.data().who) == JSON.stringify([내uid, 판매자uid]) && doc.data().product == 상품명) {
               bl = false
-              
-              window.location.href = `chat.html?id= ${doc.id}`
-
+              window.location.href = `/chat.html`
             }
           })
         })
-        if (bl){
+        
+        
+        setTimeout(() => {
+          if (bl){
+          console.log('yes')
           var 데이터 = {
           who: [내uid, 판매자uid],
           who_name: [JSON.parse(뺀거).displayName, result.data().username],
@@ -147,11 +152,13 @@
           date: new Date()
         }
         db.collection('chatroom').add(데이터)
-        setTimeout(() => {
-
-          window.location.href = "/chat.html"
-        }, 2000);
         }
+        setTimeout(() => {
+          window.location.href = "/chat.html"
+        },3000)
+          
+        }, 1000);
+        
         
 
       })

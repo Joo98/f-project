@@ -99,12 +99,14 @@
     db.collection('product').orderBy('date','desc').get().then((결과) => {
       결과.forEach((doc) => {
         console.log(doc.data());
+        var date = new Date(doc.data().date.seconds*1000 + doc.data().date.nanoseconds / 1000000)
         var 템플릿 = `<div class="product">
       <div class="thumbnail" style="background-image: url(${doc.data().img})"></div>
       <div class="flex-grow-1 p-4">
         <h5 class="title"><a href="/detail.html?id=${doc.id}">${doc.data().productname}</a></h5>
-        <p class="date">${Date(doc.data().date)}</p>
-        <p class="price">${doc.data().price}원</p>
+        <p class="date" style="font-size:8px">${date.getFullYear()}년 ${date.getMonth()}월 ${date.getDate()}일 \n ${date.getHours()}시 ${date.getMinutes()}분</p>
+        <p class="price" style="font-size:12px">${doc.data().contents.slice(0,10)}</p>
+        <p class="price" >${doc.data().price}원</p>
         
       </div>
     </div>`;
