@@ -81,14 +81,19 @@
     })
     //유저정보 확인
     var 뺀거 = localStorage.getItem('user')
-    if (뺀거) {
+    if (뺀거 && JSON.parse(뺀거).displayName != null) {
       $('#userName').html(JSON.parse(뺀거).displayName)
       db.collection('user').doc(JSON.parse(뺀거).uid).get().then((doc) =>{    
         $('#short').html(doc.data().short)
       })
       
     } else {
-      window.location.href = "/login.html"
+      firebase.auth().signOut()
+      localStorage.removeItem('user')
+      setTimeout(() => {
+          window.location.href = "/login.html"
+        }, 1000);
+      
     }
     //물건을 파이어베이스에서 꺼내와 진열
     db.collection('product').orderBy('date','desc').get().then((결과) => {
