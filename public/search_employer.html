@@ -129,7 +129,7 @@
         <p class="email">${doc.data().email}</p>
         <p class="name">${doc.data().name}</p>
         <p class="adress">${doc.data().adress}</p>
-        <button class="btn btn-danger mt-3" value = ${doc.id}< id="send">신청하기</button>
+        <button class="btn btn-danger mt-3" onclick =  "send('${doc.id}')" id="send">신청하기</button>
       </div>
     </div>`;
                     $('#container1').append(템플릿)

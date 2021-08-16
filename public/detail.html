@@ -122,12 +122,23 @@
 
       var 내uid = JSON.parse(localStorage.getItem('user')).uid
       var chatroomif
-      if (판매자uid == 내uid) {
+      bl = false
+      db.collection('user').doc(JSON.parse(뺀거).uid).collection('employee').get().then((result) => {
+        bl = false
+        result.forEach((doc) => {
+            if (doc.data().id == 판매자uid ){
+              bl = true
+            }
+          })
+        
+          if (판매자uid == 내uid || bl) {
         $('#chat').hide()
       } else {
         $('#delete').hide()
         $('#edit').hide()
       }
+      })
+      
       $('#chat').click(function () {
         var bl =true
         console.log('chat')
